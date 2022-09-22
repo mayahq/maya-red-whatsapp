@@ -1,0 +1,104 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("whatsapp-auth", {
+        category: "config",
+        color: "#8BBDD9",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            fromPhoneNumberId: {
+                value: "",
+                required: false
+            },
+            payloadTypefromPhoneNumberId: {
+                value: "str"
+            },
+        },
+        credentials: {
+            accessToken: {
+                type: String
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "whatsapp-auth"
+        },
+        paletteLabel: "whatsapp-auth",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypefromPhoneNumberId === null) {
+                if (this.fromPhoneNumberId === "") {
+                    this.payloadTypefromPhoneNumberId = "date"
+                } else {
+                    this.payloadTypefromPhoneNumberId = "str"
+                }
+            } else if (this.payloadTypefromPhoneNumberId === 'string' || this.payloadTypefromPhoneNumberId === 'none') {
+                this.payloadTypefromPhoneNumberId = "str"
+            }
+
+            $("#node-config-input-payloadTypefromPhoneNumberId").val(this.payloadTypefromPhoneNumberId)
+            $("#node-config-input-fromPhoneNumberId").typedInput({
+                default: "str",
+                typeField: $("#node-config-input-payloadTypefromPhoneNumberId"),
+                types: ["str", "msg", "flow", "global"]
+            })
+            $("#node-config-input-fromPhoneNumberId").typedInput("type", this.payloadTypefromPhoneNumberId)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="whatsapp-auth">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-fromPhoneNumberId">fromPhoneNumberId</label>
+        <input type="text" id="node-config-input-fromPhoneNumberId"></input>
+        <input type="hidden" id="node-config-input-payloadTypefromPhoneNumberId">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-accessToken">accessToken</label>
+        <input type="password" id="node-config-input-accessToken"></input>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="whatsapp-auth">
+    <h2>Description</h2>
+    <p>Query opens tabs based on criteria like URL, muted status</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

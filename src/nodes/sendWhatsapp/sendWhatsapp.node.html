@@ -1,0 +1,224 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("send-whatsapp", {
+        category: "Maya Red Whatsapp",
+        color: "#8BBDD9",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            WhatsappAuth: {
+                value: "",
+                type: "whatsapp-auth"
+            },
+            to: {
+                value: "",
+                required: false
+            },
+            payloadTypeto: {
+                value: "str"
+            },
+            template_name: {
+                value: "",
+                required: false
+            },
+            payloadTypetemplate_name: {
+                value: "str"
+            },
+            components: {
+                value: "{}",
+                required: false
+            },
+            payloadTypecomponents: {
+                value: "json"
+            },
+            message: {
+                value: "",
+                required: false
+            },
+            payloadTypemessage: {
+                value: "str"
+            },
+            action: {
+                value: "sendUsingTemplate"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "send-whatsapp"
+        },
+        paletteLabel: "send-whatsapp",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypeto === null) {
+                if (this.to === "") {
+                    this.payloadTypeto = "date"
+                } else {
+                    this.payloadTypeto = "str"
+                }
+            } else if (this.payloadTypeto === 'string' || this.payloadTypeto === 'none') {
+                this.payloadTypeto = "str"
+            }
+
+            $("#node-input-payloadTypeto").val(this.payloadTypeto)
+            $("#node-input-to").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeto"),
+                types: ["str", "msg", "flow", "global"]
+            })
+            $("#node-input-to").typedInput("type", this.payloadTypeto)
+
+            if (this.payloadTypetemplate_name === null) {
+                if (this.template_name === "") {
+                    this.payloadTypetemplate_name = "date"
+                } else {
+                    this.payloadTypetemplate_name = "str"
+                }
+            } else if (this.payloadTypetemplate_name === 'string' || this.payloadTypetemplate_name === 'none') {
+                this.payloadTypetemplate_name = "str"
+            }
+
+            $("#node-input-payloadTypetemplate_name").val(this.payloadTypetemplate_name)
+            $("#node-input-template_name").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypetemplate_name"),
+                types: ["msg", "str", "flow", "global"]
+            })
+            $("#node-input-template_name").typedInput("type", this.payloadTypetemplate_name)
+
+            if (this.payloadTypecomponents === null) {
+                if (this.components === "") {
+                    this.payloadTypecomponents = "date"
+                } else {
+                    this.payloadTypecomponents = "json"
+                }
+            } else if (this.payloadTypecomponents === 'string' || this.payloadTypecomponents === 'none') {
+                this.payloadTypecomponents = "json"
+            }
+
+            $("#node-input-payloadTypecomponents").val(this.payloadTypecomponents)
+            $("#node-input-components").typedInput({
+                default: "json",
+                typeField: $("#node-input-payloadTypecomponents"),
+                types: ["msg", "json", "flow", "global"]
+            })
+            $("#node-input-components").typedInput("type", this.payloadTypecomponents)
+
+            if (this.payloadTypemessage === null) {
+                if (this.message === "") {
+                    this.payloadTypemessage = "date"
+                } else {
+                    this.payloadTypemessage = "str"
+                }
+            } else if (this.payloadTypemessage === 'string' || this.payloadTypemessage === 'none') {
+                this.payloadTypemessage = "str"
+            }
+
+            $("#node-input-payloadTypemessage").val(this.payloadTypemessage)
+            $("#node-input-message").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypemessage"),
+                types: ["str", "msg", "flow", "global"]
+            })
+            $("#node-input-message").typedInput("type", this.payloadTypemessage)
+
+
+            const actionFieldSetNames = ["sendUsingTemplate", "sendFromScratch"]
+            actionFieldSetNames.forEach((fieldSetName) => {
+                $("#node-input-action").append($("<option></option>").attr("value", fieldSetName).text(fieldSetName))
+            })
+
+            $("#node-input-action").val(this.action)
+            $("#node-input-action").on("change", (e) => {
+                const newFieldSet = e.target.value
+                actionFieldSetNames.forEach((fieldSetName) => {
+                    if (fieldSetName !== newFieldSet) {
+                        document.querySelector("div#fieldset-" + fieldSetName).style.display = 'none'
+                    }
+                })
+                document.querySelector("div#fieldset-" + newFieldSet).style.display = ''
+                $("#node-input-action").val(e.target.value)
+            })
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="send-whatsapp">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-WhatsappAuth">WhatsappAuth</label>
+        <input type="text" id="node-input-WhatsappAuth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-to">to</label>
+        <input type="text" id="node-input-to"></input>
+        <input type="hidden" id="node-input-payloadTypeto">
+    </div>
+    <div class="form-row">
+        <label for="node-input-action">action</label>
+        <select type="text" id="node-input-action">
+        </select>
+    </div>
+    <div id="fieldset-sendUsingTemplate" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-template_name">template_name</label>
+            <input type="text" id="node-input-template_name"></input>
+            <input type="hidden" id="node-input-payloadTypetemplate_name">
+        </div>
+        <div class="form-row">
+            <label for="node-input-components">components</label>
+            <input type="text" id="node-input-components"></input>
+            <input type="hidden" id="node-input-payloadTypecomponents">
+        </div>
+    </div>
+
+    <div id="fieldset-sendFromScratch" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-message">message</label>
+            <input type="text" id="node-input-message"></input>
+            <input type="hidden" id="node-input-payloadTypemessage">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="send-whatsapp">
+    <h2>Description</h2>
+    <p>Query opens tabs based on criteria like URL, muted status</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

@@ -1,0 +1,42 @@
+{
+  "name": "maya-red-whatsapp",
+  "version": "1.0.0",
+  "description": "Maya module for whatsapp ",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mayahq/mayadev/issues"
+  },
+  "homepage": "#readme",
+  "nodepath": "src/nodes",
+  "nodeRedModuleName": "maya-red-whatsapp",
+  "node-red": {
+    "nodes": {
+      "send-whatsapp": "src/nodes/sendWhatsapp/sendWhatsapp.node.js",
+      "whatsapp-auth": "src/nodes/whatsappAuth/whatsappAuth.node.js"
+    }
+  },
+  "mayaDetails": {
+    "name": "maya-red-whatsapp",
+    "version": "1.0.0",
+    "description": "Maya module for whatsapp ",
+    "author": "",
+    "type": "git",
+    "needsUserProfile": false,
+    "thumbnail": "",
+    "repository": {
+      "type": "git",
+      "url": "git+.git"
+    }
+  },
+  "dependencies": {
+    "@mayahq/module-sdk": "^2.2.3",
+    "axios": "^0.27.2"
+  }
+}
